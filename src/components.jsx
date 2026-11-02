@@ -1,19 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowRight,
   Check,
   ChevronDown,
   Copy,
-  Github,
   Languages,
+  LogOut,
   Menu,
   Moon,
-  Sparkles,
   Sun,
   X,
 } from "lucide-react";
 import { providers } from "./data";
 import { useI18n } from "./i18n";
+import { useAuth } from "./auth";
 
 export function BrandMark({ compact = false }) {
   return (
@@ -77,7 +77,9 @@ const navItems = [
 
 export function Header({ page, onNavigate, onLogin, theme, onTheme }) {
   const { language, setLanguage, t } = useI18n();
+  const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -85,6 +87,15 @@ export function Header({ page, onNavigate, onLogin, theme, onTheme }) {
 
   const go = (target) => {
     onNavigate(target);
+    setMobileOpen(false);
+    setAccountOpen(false);
+  };
+
+  const userInitial = (user?.name || user?.email || "U").trim().charAt(0).toUpperCase();
+
+  const signOut = async () => {
+    await logout();
+    setAccountOpen(false);
     setMobileOpen(false);
   };
 
@@ -125,9 +136,31 @@ export function Header({ page, onNavigate, onLogin, theme, onTheme }) {
               <Languages size={15} />
               {language === "en" ? "中文" : "EN"}
             </button>
-            <button className="text-button" onClick={onLogin}>
-              {t("Sign in")}
-            </button>
+            {user ? (
+              <div className="header-account">
+                <button className="header-account__trigger" onClick={() => setAccountOpen((open) => !open)}>
+                  {user.avatarUrl
+                    ? <img src={user.avatarUrl} alt="" />
+                    : <span className="header-avatar">{userInitial}</span>}
+                  <span>{user.name || user.email}</span>
+                  <ChevronDown size={14} />
+                </button>
+                {accountOpen && (
+                  <div className="header-account__menu">
+                    <div className="header-account__identity">
+                      <strong>{user.name || t("Account")}</strong>
+                      <span>{user.email || t("Connected account")}</span>
+                    </div>
+                    <button onClick={() => go("dashboard")}>{t("Console")}</button>
+                    <button onClick={signOut}><LogOut size={14} /> {t("Sign out")}</button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button className="text-button" onClick={onLogin}>
+                {t("Sign in")}
+              </button>
+            )}
             <button className="button button--dark button--small" onClick={() => go("playground")}>
               {t("Start building")} <ArrowRight size={15} />
             </button>
@@ -153,7 +186,17 @@ export function Header({ page, onNavigate, onLogin, theme, onTheme }) {
                 <ArrowRight size={16} />
               </button>
             ))}
-            <button onClick={onLogin}>{t("Sign in")}</button>
+            {user ? (
+              <>
+                <div className="mobile-account">
+                  <span className="header-avatar">{userInitial}</span>
+                  <div><strong>{user.name || t("Account")}</strong><span>{user.email || t("Connected account")}</span></div>
+                </div>
+                <button onClick={signOut}>{t("Sign out")}<LogOut size={15} /></button>
+              </>
+            ) : (
+              <button onClick={onLogin}>{t("Sign in")}</button>
+            )}
             <button className="button button--orange" onClick={() => go("playground")}>
               {t("Start building")} <ArrowRight size={16} />
             </button>
@@ -242,56 +285,6 @@ export function CodeBlock({ code, language = "bash", compact = false }) {
 
 export function SectionLabel({ children }) {
   return <div className="section-label">{children}</div>;
-}
-
-export function LoginModal({ open, onClose }) {
-  const { t } = useI18n();
-  const modalRef = useRef(null);
-
-  useEffect(() => {
-    if (!open) return undefined;
-    const handler = (event) => {
-      if (event.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handler);
-    document.body.classList.add("modal-open");
-    return () => {
-      document.removeEventListener("keydown", handler);
-      document.body.classList.remove("modal-open");
-    };
-  }, [open, onClose]);
-
-  if (!open) return null;
-
-  return (
-    <div className="modal-backdrop" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <div className="login-modal" ref={modalRef} role="dialog" aria-modal="true" aria-label={t("Sign in")}>
-        <button className="modal-close" onClick={onClose} aria-label={t("Close")}>
-          <X size={19} />
-        </button>
-        <BrandMark />
-        <div className="login-modal__intro">
-          <span className="mini-kicker">
-            <Sparkles size={13} /> {t("Welcome back")}
-          </span>
-          <h2>{t("Build with every model.")}</h2>
-          <p>{t("Sign in to manage API keys, usage, and model access.")}</p>
-        </div>
-        <button className="oauth-button">
-          <Github size={18} /> {t("Continue with GitHub")}
-        </button>
-        <div className="or-divider"><span>{t("or")}</span></div>
-        <label className="field">
-          <span>{t("Email address")}</span>
-          <input type="email" placeholder="you@company.com" />
-        </label>
-        <button className="button button--orange login-submit">{t("Continue with email")}</button>
-        <p className="login-terms">
-          {t("By continuing, you agree to our")} <a href="#terms">{t("Terms")}</a> {t("and")} <a href="#privacy">{t("Privacy Policy")}</a>.
-        </p>
-      </div>
-    </div>
-  );
 }
 
 export function SelectField({ label, value, onChange, children, className = "" }) {

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { Header, Footer, LoginModal } from "./components";
+import { Header, Footer } from "./components";
+import AuthModal from "./AuthModal";
 import Home from "./pages/Home";
 import Models from "./pages/Models";
 import Playground from "./pages/Playground";
@@ -17,6 +18,7 @@ function readRoute() {
 export default function App() {
   const [page, setPage] = useState(readRoute);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login");
   const [theme, setTheme] = useState(() => localStorage.getItem("dytoken-theme") || "light");
 
   useEffect(() => {
@@ -42,11 +44,24 @@ export default function App() {
   }, [page]);
 
   const toggleTheme = () => setTheme((current) => (current === "light" ? "dark" : "light"));
+  const openAuth = useCallback((mode = "login") => {
+    setAuthMode(mode);
+    setLoginOpen(true);
+  }, []);
+
+  useEffect(() => {
+    const query = window.location.hash.split("?")[1];
+    if (!query) return;
+    const params = new URLSearchParams(query);
+    if (params.get("auth") === "error") {
+      openAuth("login");
+    }
+  }, [openAuth]);
 
   const pages = {
-    home: <Home onNavigate={navigate} onLogin={() => setLoginOpen(true)} />,
+    home: <Home onNavigate={navigate} onLogin={() => openAuth("register")} />,
     models: <Models onNavigate={navigate} />,
-    playground: <Playground onNavigate={navigate} onLogin={() => setLoginOpen(true)} />,
+    playground: <Playground onNavigate={navigate} onLogin={() => openAuth("login")} />,
     dashboard: <Dashboard onNavigate={navigate} />,
     docs: <Docs onNavigate={navigate} />,
     pricing: <Pricing onNavigate={navigate} />,
@@ -57,15 +72,19 @@ export default function App() {
       <Header
         page={page}
         onNavigate={navigate}
-        onLogin={() => setLoginOpen(true)}
+        onLogin={() => openAuth("login")}
         theme={theme}
         onTheme={toggleTheme}
       />
       <main>{pages[page]}</main>
       {!["playground", "dashboard"].includes(page) && (
-        <Footer onNavigate={navigate} onLogin={() => setLoginOpen(true)} />
+        <Footer onNavigate={navigate} onLogin={() => openAuth("login")} />
       )}
-      <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />
+      <AuthModal
+        open={loginOpen}
+        initialMode={authMode}
+        onClose={() => setLoginOpen(false)}
+      />
     </>
   );
 }

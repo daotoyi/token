@@ -33,6 +33,7 @@ import {
   Zap,
 } from "lucide-react";
 import { CodeBlock, ModelMark } from "../components";
+import { useAuth } from "../auth";
 import { codeExamples, models, usageData } from "../data";
 import { useI18n } from "../i18n";
 
@@ -203,11 +204,15 @@ function KeyModal({ onClose }) {
 
 export default function Dashboard({ onNavigate }) {
   const { t } = useI18n();
+  const { user } = useAuth();
   const [activeNav, setActiveNav] = useState("overview");
   const [keyModal, setKeyModal] = useState(false);
   const [keyVisible, setKeyVisible] = useState(false);
   const [copied, setCopied] = useState(false);
   const key = "sk-dy-v1-••••••••••••••••8f2k";
+  const displayName = (user?.name || user?.email?.split("@")[0] || "Wenhua").split(" ")[0];
+  const displayEmail = user?.email || "wenhuas.shi@gmail.com";
+  const avatarInitial = displayName.charAt(0).toUpperCase();
 
   const copyKey = async () => {
     await navigator.clipboard?.writeText("sk-dy-v1-demo-7h4k2p9m8f2k");
@@ -240,8 +245,10 @@ export default function Dashboard({ onNavigate }) {
           <button><BookOpen size={16} /> {t("Documentation")} <ExternalLink size={13} /></button>
           <button><LifeBuoy size={16} /> {t("Support")}</button>
           <div className="sidebar-account">
-            <span className="account-avatar">WH</span>
-            <div><strong>Wenhua</strong><span>wenhuas.shi@gmail.com</span></div>
+            {user?.avatarUrl
+              ? <img className="account-avatar" src={user.avatarUrl} alt="" />
+              : <span className="account-avatar">{avatarInitial}</span>}
+            <div><strong>{displayName}</strong><span>{displayEmail}</span></div>
             <MoreHorizontal size={16} />
           </div>
         </div>
@@ -263,7 +270,7 @@ export default function Dashboard({ onNavigate }) {
         <div className="dashboard-content">
           <div className="dashboard-heading">
             <div>
-              <h1>{activeNav === "overview" ? t("Good afternoon, Wenhua") : t(nav.find((item) => item[0] === activeNav)?.[1])}</h1>
+              <h1>{activeNav === "overview" ? t("Good afternoon, {name}", { name: displayName }) : t(nav.find((item) => item[0] === activeNav)?.[1])}</h1>
               <p>{activeNav === "overview" ? t("Here's what's happening across your workspace.") : t("Manage your workspace and API infrastructure.")}</p>
             </div>
             <div className="dashboard-heading__actions">
