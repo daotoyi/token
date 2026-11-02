@@ -2,6 +2,8 @@
 
 A model gateway and token relay interface inspired by OpenRouter.
 
+The interface supports English and Simplified Chinese, with English as the default language.
+
 ## Development
 
 ```bash

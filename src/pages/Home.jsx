@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { CodeBlock, LogoCloud, ModelMark, SectionLabel } from "../components";
 import { codeExamples, models } from "../data";
+import { useI18n } from "../i18n";
 
 const routeModels = [
   { name: "Claude Sonnet 4.5", provider: "Anthropic", latency: "1.1s", cost: "$0.0094" },
@@ -28,6 +29,7 @@ const routeModels = [
 ];
 
 function RouterConsole() {
+  const { t } = useI18n();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
 
@@ -50,27 +52,27 @@ function RouterConsole() {
       <div className="router-demo__bar">
         <div className="window-dots" aria-hidden="true"><i /><i /><i /></div>
         <span className="router-demo__endpoint">api.dyinvest.cn/v1</span>
-        <span className="status-pill"><span className="live-dot" /> Live</span>
+        <span className="status-pill"><span className="live-dot" /> {t("LIVE")}</span>
       </div>
       <div className="router-demo__body">
         <div className="prompt-line">
           <span className="prompt-line__icon"><Sparkles size={14} /></span>
-          <span>Build a go-to-market plan for an AI product launch.</span>
+          <span>{t("Build a go-to-market plan for an AI product launch.")}</span>
         </div>
         <div className="route-flow">
           <div className="route-node">
             <div className="route-node__head">
               <span className="route-icon"><GitBranch size={15} /></span>
               <div>
-                <strong>Auto Router</strong>
-                <small>Analyzing request</small>
+                <strong>{t("Auto Router")}</strong>
+                <small>{t("Analyzing request")}</small>
               </div>
               <span className="route-cost">2.4K tokens</span>
             </div>
             <div className="route-tags">
-              <span>reasoning</span>
-              <span>long context</span>
-              <span>writing</span>
+              <span>{t("reasoning")}</span>
+              <span>{t("long context")}</span>
+              <span>{t("writing")}</span>
             </div>
           </div>
           <div className="route-connector">
@@ -85,7 +87,7 @@ function RouterConsole() {
               />
               <div>
                 <strong>{selected.name}</strong>
-                <small>Best balance of quality + speed</small>
+                <small>{t("Best balance of quality + speed")}</small>
               </div>
               <span className="route-live"><span className="live-dot" /> 99.99%</span>
             </div>
@@ -110,48 +112,47 @@ function RouterConsole() {
               <ModelMark key={model.id} model={model} size="xs" />
             ))}
           </span>
-          <strong>12</strong> models considered
+          <strong>12</strong> {t("models considered")}
         </div>
-        <span className="router-demo__savings">Optimized <strong>+$0.024</strong></span>
+        <span className="router-demo__savings">{t("Optimized")} <strong>+$0.024</strong></span>
       </div>
       <div className="floating-stat floating-stat--top">
-        <span>UPTIME</span>
+        <span>{t("UPTIME")}</span>
         <strong>99.99%</strong>
-        <small>Last 90 days</small>
+        <small>{t("Last 90 days")}</small>
       </div>
       <div className="floating-stat floating-stat--bottom">
         <Zap size={16} />
-        <div><strong>37ms</strong><small>edge overhead</small></div>
+        <div><strong>37ms</strong><small>{t("edge overhead")}</small></div>
       </div>
     </div>
   );
 }
 
 function Hero({ onNavigate }) {
+  const { t } = useI18n();
   return (
     <section className="hero">
       <div className="hero__grid" aria-hidden="true" />
       <div className="container hero__inner">
         <div className="hero__copy">
           <span className="hero-kicker">
-            <span className="live-dot" /> Unified inference for every frontier model
+            <span className="live-dot" /> {t("Unified inference for every frontier model")}
           </span>
           <h1>
-            All the models.
+            {t("All the models.")}
             <br />
-            <span className="accent-underline">One API.</span>
+            <span className="accent-underline">{t("One API.")}</span>
           </h1>
           <p className="hero__lead">
-            Access GPT, Claude, Gemini, DeepSeek and more through a single,
-            OpenAI-compatible endpoint. Route intelligently, switch instantly,
-            and never manage another provider account.
+            {t("Access GPT, Claude, Gemini, DeepSeek and more through a single, OpenAI-compatible endpoint. Route intelligently, switch instantly, and never manage another provider account.")}
           </p>
           <div className="hero__actions">
             <button className="button button--orange button--large" onClick={() => onNavigate("playground")}>
-              Try the playground <ArrowRight size={18} />
+              {t("Try the playground")} <ArrowRight size={18} />
             </button>
             <button className="button button--outline button--large" onClick={() => onNavigate("docs")}>
-              <Code2 size={18} /> Read the docs
+              <Code2 size={18} /> {t("Read the docs")}
             </button>
           </div>
           <div className="hero__proof">
@@ -162,7 +163,7 @@ function Hero({ onNavigate }) {
             </div>
             <div>
               <div className="proof-stars">★★★★★ <strong>4.9</strong></div>
-              <span>Trusted by 38,000+ builders</span>
+              <span>{t("Trusted by 38,000+ builders")}</span>
             </div>
           </div>
         </div>
@@ -172,7 +173,7 @@ function Hero({ onNavigate }) {
       </div>
       <div className="provider-strip">
         <div className="container provider-strip__inner">
-          <span>ONE ENDPOINT FOR</span>
+          <span>{t("ONE ENDPOINT FOR")}</span>
           <LogoCloud />
         </div>
       </div>
@@ -181,34 +182,33 @@ function Hero({ onNavigate }) {
 }
 
 function MetricsBand() {
+  const { t } = useI18n();
   return (
     <section className="metrics-band">
       <div className="container metrics">
-        <div><strong>300+</strong><span>Available models</span></div>
-        <div><strong>99.99%</strong><span>Gateway uptime</span></div>
-        <div><strong>37ms</strong><span>Median overhead</span></div>
-        <div><strong>4.2B</strong><span>Tokens routed daily</span></div>
+        <div><strong>300+</strong><span>{t("Available models")}</span></div>
+        <div><strong>99.99%</strong><span>{t("Gateway uptime")}</span></div>
+        <div><strong>37ms</strong><span>{t("Median overhead")}</span></div>
+        <div><strong>4.2B</strong><span>{t("Tokens routed daily")}</span></div>
       </div>
     </section>
   );
 }
 
 function IntegrationSection({ onNavigate }) {
+  const { t } = useI18n();
   return (
     <section className="section integration-section">
       <div className="container">
         <div className="section-heading split-heading">
           <div>
-            <SectionLabel>One integration</SectionLabel>
-            <h2>Switch models without<br />switching your code.</h2>
+            <SectionLabel>{t("One integration")}</SectionLabel>
+            <h2>{t("Switch models without switching your code.")}</h2>
           </div>
           <div className="section-heading__aside">
-            <p>
-              DyToken speaks the OpenAI API format. Change one string to route
-              between providers, regions, and price tiers.
-            </p>
+            <p>{t("DyToken speaks the OpenAI API format. Change one string to route between providers, regions, and price tiers.")}</p>
             <button className="inline-link" onClick={() => onNavigate("docs")}>
-              Explore API docs <ArrowUpRight size={16} />
+              {t("Explore API docs")} <ArrowUpRight size={16} />
             </button>
           </div>
         </div>
@@ -219,33 +219,33 @@ function IntegrationSection({ onNavigate }) {
             </div>
             <CodeBlock code={codeExamples.typescript} language="typescript" />
             <div className="integration-code__note">
-              <Check size={15} /> Drop-in compatible with the OpenAI SDK
+              <Check size={15} /> {t("Drop-in compatible with the OpenAI SDK")}
             </div>
           </div>
           <div className="capability-grid">
             <article>
               <span className="feature-icon"><Route size={19} /></span>
-              <h3>Intelligent routing</h3>
-              <p>Pick the best model per request using quality, speed, and your budget.</p>
-              <div className="feature-meta">AUTO ROUTER <ArrowRight size={14} /></div>
+              <h3>{t("Intelligent routing")}</h3>
+              <p>{t("Pick the best model per request using quality, speed, and your budget.")}</p>
+              <div className="feature-meta">{t("AUTO ROUTER")} <ArrowRight size={14} /></div>
             </article>
             <article>
               <span className="feature-icon feature-icon--green"><TimerReset size={19} /></span>
-              <h3>Automatic fallback</h3>
-              <p>Requests reroute in milliseconds when a provider slows down or fails.</p>
-              <div className="feature-meta">ZERO DOWNTIME <ArrowRight size={14} /></div>
+              <h3>{t("Automatic fallback")}</h3>
+              <p>{t("Requests reroute in milliseconds when a provider slows down or fails.")}</p>
+              <div className="feature-meta">{t("ZERO DOWNTIME")} <ArrowRight size={14} /></div>
             </article>
             <article>
               <span className="feature-icon feature-icon--blue"><Gauge size={19} /></span>
-              <h3>Usage controls</h3>
-              <p>Track spend, latency, and token use across every model in one place.</p>
-              <div className="feature-meta">LIVE ANALYTICS <ArrowRight size={14} /></div>
+              <h3>{t("Usage controls")}</h3>
+              <p>{t("Track spend, latency, and token use across every model in one place.")}</p>
+              <div className="feature-meta">{t("LIVE ANALYTICS")} <ArrowRight size={14} /></div>
             </article>
             <article>
               <span className="feature-icon feature-icon--yellow"><LockKeyhole size={19} /></span>
-              <h3>Private by default</h3>
-              <p>No prompt logging, no training on your data, and region-level controls.</p>
-              <div className="feature-meta">SOC 2 READY <ArrowRight size={14} /></div>
+              <h3>{t("Private by default")}</h3>
+              <p>{t("No prompt logging, no training on your data, and region-level controls.")}</p>
+              <div className="feature-meta">{t("SOC 2 READY")} <ArrowRight size={14} /></div>
             </article>
           </div>
         </div>
@@ -255,25 +255,26 @@ function IntegrationSection({ onNavigate }) {
 }
 
 function ModelRanking({ onNavigate }) {
+  const { t } = useI18n();
   const rankedModels = models.slice(0, 6);
   return (
     <section className="section model-ranking">
       <div className="container">
         <div className="section-heading split-heading">
           <div>
-            <SectionLabel>Live model catalog</SectionLabel>
-            <h2>The best models,<br />measured side by side.</h2>
+            <SectionLabel>{t("Live model catalog")}</SectionLabel>
+            <h2>{t("The best models, measured side by side.")}</h2>
           </div>
           <div className="section-heading__aside">
-            <p>Real availability, pricing, and throughput across providers. Updated continuously.</p>
+            <p>{t("Real availability, pricing, and throughput across providers. Updated continuously.")}</p>
             <button className="inline-link" onClick={() => onNavigate("models")}>
-              Browse all models <ArrowUpRight size={16} />
+              {t("Browse all models")} <ArrowUpRight size={16} />
             </button>
           </div>
         </div>
         <div className="ranking-table">
           <div className="ranking-row ranking-row--head">
-            <span>Model</span><span>Context</span><span>Input / 1M</span><span>Output / 1M</span><span>Latency</span><span>Trend</span>
+            <span>{t("Model")}</span><span>{t("Context")}</span><span>{t("Input / 1M")}</span><span>{t("Output / 1M")}</span><span>{t("Latency")}</span><span>{t("Trend")}</span>
           </div>
           {rankedModels.map((model, index) => (
             <button className="ranking-row" key={model.id} onClick={() => onNavigate("models")}>
@@ -281,7 +282,7 @@ function ModelRanking({ onNavigate }) {
                 <small>{String(index + 1).padStart(2, "0")}</small>
                 <ModelMark model={model} size="sm" />
                 <span><strong>{model.name}</strong><small>{model.provider}</small></span>
-                {model.badge && <em>{model.badge}</em>}
+                {model.badge && <em>{t(model.badge)}</em>}
               </span>
               <span>{model.context}</span>
               <span>${model.input.toFixed(2)}</span>
@@ -301,30 +302,28 @@ function ModelRanking({ onNavigate }) {
 }
 
 function ProviderAdvantage({ onLogin }) {
+  const { t } = useI18n();
   return (
     <section className="section advantage-section">
       <div className="container">
         <div className="advantage-copy">
-          <SectionLabel>Built for production</SectionLabel>
-          <h2>Provider choice,<br />without provider lock-in.</h2>
-          <p>
-            Your application should outlive any single model. DyToken gives you
-            one contract across providers, so you can evolve your stack on your terms.
-          </p>
+          <SectionLabel>{t("Built for production")}</SectionLabel>
+          <h2>{t("Provider choice, without provider lock-in.")}</h2>
+          <p>{t("Your application should outlive any single model. DyToken gives you one contract across providers, so you can evolve your stack on your terms.")}</p>
           <ul className="check-list">
-            <li><Check size={16} /> 300+ models from 60+ providers</li>
-            <li><Check size={16} /> Unified billing and spend controls</li>
-            <li><Check size={16} /> Global edge routing with smart failover</li>
-            <li><Check size={16} /> Team workspaces, roles, and audit logs</li>
+            <li><Check size={16} /> {t("300+ models from 60+ providers")}</li>
+            <li><Check size={16} /> {t("Unified billing and spend controls")}</li>
+            <li><Check size={16} /> {t("Global edge routing with smart failover")}</li>
+            <li><Check size={16} /> {t("Team workspaces, roles, and audit logs")}</li>
           </ul>
           <button className="button button--dark" onClick={onLogin}>
-            Create your account <ArrowRight size={16} />
+            {t("Create your account")} <ArrowRight size={16} />
           </button>
         </div>
         <div className="network-visual" aria-label="Global routing network visualization">
           <div className="network-visual__head">
-            <div><span className="live-dot" /> Global gateway</div>
-            <span>LIVE</span>
+            <div><span className="live-dot" /> {t("Global gateway")}</div>
+            <span>{t("LIVE")}</span>
           </div>
           <div className="network-map">
             <svg viewBox="0 0 620 390" role="img" aria-label="World routing map">
@@ -355,19 +354,19 @@ function ProviderAdvantage({ onLogin }) {
               ))}
             </svg>
             <div className="network-panel network-panel--left">
-              <small>REQUESTS / MIN</small>
+              <small>{t("REQUESTS / MIN")}</small>
               <strong>18,492</strong>
               <span>↑ 12.4%</span>
             </div>
             <div className="network-panel network-panel--right">
-              <small>P95 LATENCY</small>
+              <small>{t("P95 LATENCY")}</small>
               <strong>842ms</strong>
-              <span className="green">Healthy</span>
+              <span className="green">{t("Healthy")}</span>
             </div>
           </div>
           <div className="network-visual__footer">
-            <span><Globe2 size={15} /> 18 regions active</span>
-            <span><Layers3 size={15} /> 62 provider endpoints</span>
+            <span><Globe2 size={15} /> {t("18 regions active")}</span>
+            <span><Layers3 size={15} /> {t("62 provider endpoints")}</span>
           </div>
         </div>
       </div>
@@ -376,40 +375,41 @@ function ProviderAdvantage({ onLogin }) {
 }
 
 function PricingTeaser({ onNavigate }) {
+  const { t } = useI18n();
   return (
     <section className="section pricing-teaser">
       <div className="container pricing-teaser__inner">
         <div className="pricing-teaser__main">
-          <SectionLabel>Simple pricing</SectionLabel>
-          <h2>Pay only for what<br />you actually use.</h2>
-          <p>No monthly minimum. No per-seat tax. Transparent provider pricing with one consolidated bill.</p>
+          <SectionLabel>{t("Simple pricing")}</SectionLabel>
+          <h2>{t("Pay only for what you actually use.")}</h2>
+          <p>{t("No monthly minimum. No per-seat tax. Transparent provider pricing with one consolidated bill.")}</p>
           <div className="pricing-teaser__actions">
             <button className="button button--orange" onClick={() => onNavigate("pricing")}>
-              View pricing <ArrowRight size={16} />
+              {t("View pricing")} <ArrowRight size={16} />
             </button>
-            <span><Check size={14} /> $5 free credit</span>
+            <span><Check size={14} /> {t("$5 free credit")}</span>
           </div>
         </div>
         <div className="pricing-cards">
           <div className="price-card">
-            <span>PAY AS YOU GO</span>
+            <span>{t("PAY AS YOU GO")}</span>
             <strong><sup>$</sup>0</strong>
-            <p>Monthly platform fee</p>
+            <p>{t("Monthly platform fee")}</p>
             <ul>
-              <li><Check size={14} /> All models</li>
-              <li><Check size={14} /> Usage analytics</li>
-              <li><Check size={14} /> Smart routing</li>
+              <li><Check size={14} /> {t("All models")}</li>
+              <li><Check size={14} /> {t("Usage analytics")}</li>
+              <li><Check size={14} /> {t("Smart routing")}</li>
             </ul>
           </div>
           <div className="price-card price-card--accent">
-            <div className="price-card__label">BUILDER PLAN</div>
-            <span>FOR GROWING TEAMS</span>
-            <strong><sup>$</sup>29<small>/mo</small></strong>
-            <p>Higher limits, volume discounts</p>
+            <div className="price-card__label">{t("BUILDER PLAN")}</div>
+            <span>{t("FOR GROWING TEAMS")}</span>
+            <strong><sup>$</sup>29<small>{t("/mo")}</small></strong>
+            <p>{t("Higher limits, volume discounts")}</p>
             <ul>
-              <li><Check size={14} /> 5 team members</li>
-              <li><Check size={14} /> 5% routing discount</li>
-              <li><Check size={14} /> Priority support</li>
+              <li><Check size={14} /> {t("5 team members")}</li>
+              <li><Check size={14} /> {t("5% routing discount")}</li>
+              <li><Check size={14} /> {t("Priority support")}</li>
             </ul>
           </div>
         </div>
@@ -419,20 +419,21 @@ function PricingTeaser({ onNavigate }) {
 }
 
 function FinalCTA({ onNavigate }) {
+  const { t } = useI18n();
   return (
     <section className="final-cta">
       <div className="container final-cta__inner">
         <span className="final-cta__orb"><Braces size={24} /></span>
         <div>
-          <SectionLabel>Ready when you are</SectionLabel>
-          <h2>Build once. Route everywhere.</h2>
+          <SectionLabel>{t("Ready when you are")}</SectionLabel>
+          <h2>{t("Build once. Route everywhere.")}</h2>
         </div>
         <div className="final-cta__actions">
           <button className="button button--orange button--large" onClick={() => onNavigate("playground")}>
-            Start building <ArrowRight size={18} />
+            {t("Start building")} <ArrowRight size={18} />
           </button>
           <button className="button button--outline-light button--large" onClick={() => onNavigate("docs")}>
-            View documentation
+            {t("View documentation")}
           </button>
         </div>
       </div>

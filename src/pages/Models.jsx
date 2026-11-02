@@ -12,10 +12,12 @@ import {
 } from "lucide-react";
 import { ModelMark, SectionLabel, SelectField } from "../components";
 import { models, providers } from "../data";
+import { useI18n } from "../i18n";
 
 const categories = ["All", "Flagship", "Fast", "Reasoning", "Coding", "Open source", "Multimodal"];
 
 export default function Models({ onNavigate }) {
+  const { t } = useI18n();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [provider, setProvider] = useState("All providers");
@@ -60,14 +62,14 @@ export default function Models({ onNavigate }) {
       <section className="catalog-hero">
         <div className="container">
           <div className="catalog-hero__copy">
-            <SectionLabel>Model catalog</SectionLabel>
-            <h1>Find your next<br /><span>favorite model.</span></h1>
-            <p>Compare pricing, context, latency, and capabilities across every provider.</p>
+            <SectionLabel>{t("Model catalog")}</SectionLabel>
+            <h1>{t("Find your next")}<br /><span>{t("favorite model.")}</span></h1>
+            <p>{t("Compare pricing, context, latency, and capabilities across every provider.")}</p>
           </div>
           <div className="catalog-hero__stats">
-            <div><strong>300+</strong><span>Models</span></div>
-            <div><strong>62</strong><span>Providers</span></div>
-            <div><strong>18</strong><span>Edge regions</span></div>
+            <div><strong>300+</strong><span>{t("Models")}</span></div>
+            <div><strong>62</strong><span>{t("Providers")}</span></div>
+            <div><strong>18</strong><span>{t("Edge regions")}</span></div>
           </div>
         </div>
       </section>
@@ -77,25 +79,25 @@ export default function Models({ onNavigate }) {
           <Search size={18} />
           <input
             type="search"
-            placeholder="Search models or providers..."
+            placeholder={t("Search models or providers...")}
             value={search}
             onChange={(event) => setSearch(event.target.value)}
-            aria-label="Search models"
+            aria-label={t("Search models")}
           />
           <kbd>⌘ K</kbd>
         </div>
         <button className="button button--outline mobile-filter-button" onClick={() => setMobileFilters((open) => !open)}>
-          <Filter size={16} /> Filters
+          <Filter size={16} /> {t("Filters")}
         </button>
         <button className="button button--dark" onClick={() => onNavigate("playground")}>
-          Compare in chat <ArrowRight size={16} />
+          {t("Compare in chat")} <ArrowRight size={16} />
         </button>
       </div>
 
       <div className="container catalog-layout">
         <aside className={`catalog-filters ${mobileFilters ? "is-open" : ""}`}>
           <div className="filter-heading">
-            <span><SlidersHorizontal size={17} /> Filters</span>
+            <span><SlidersHorizontal size={17} /> {t("Filters")}</span>
             <button
               onClick={() => {
                 setCategory("All");
@@ -103,18 +105,18 @@ export default function Models({ onNavigate }) {
                 setSearch("");
               }}
             >
-              Reset
+              {t("Reset")}
             </button>
           </div>
           <div className="filter-group">
-            <strong>Use case</strong>
+            <strong>{t("Use case")}</strong>
             {categories.map((item) => (
               <button
                 key={item}
                 className={category === item ? "is-active" : ""}
                 onClick={() => setCategory(item)}
               >
-                <span>{item}</span>
+                <span>{t(item)}</span>
                 <span className="filter-count">
                   {item === "All" ? models.length : models.filter((model) => model.category === item).length}
                 </span>
@@ -122,9 +124,9 @@ export default function Models({ onNavigate }) {
             ))}
           </div>
           <div className="filter-group">
-            <strong>Provider</strong>
+            <strong>{t("Provider")}</strong>
             <button className={provider === "All providers" ? "is-active" : ""} onClick={() => setProvider("All providers")}>
-              <span>All providers</span><span className="filter-count">{models.length}</span>
+              <span>{t("All providers")}</span><span className="filter-count">{models.length}</span>
             </button>
             {Object.keys(providers).map((item) => (
               <button key={item} className={provider === item ? "is-active" : ""} onClick={() => setProvider(item)}>
@@ -135,34 +137,34 @@ export default function Models({ onNavigate }) {
           </div>
           <div className="filter-promo">
             <Sparkles size={18} />
-            <strong>Not sure where to start?</strong>
-            <p>Let Auto Router pick the best model for every request.</p>
-            <button onClick={() => onNavigate("playground")}>Try Auto Router <ArrowRight size={14} /></button>
+            <strong>{t("Not sure where to start?")}</strong>
+            <p>{t("Let Auto Router pick the best model for every request.")}</p>
+            <button onClick={() => onNavigate("playground")}>{t("Try Auto Router")} <ArrowRight size={14} /></button>
           </div>
         </aside>
 
         <section className="catalog-results">
           <div className="catalog-results__top">
             <div>
-              <strong>{filtered.length} models</strong>
-              <span>{category === "All" ? "Across all providers" : `${category} models`}</span>
+              <strong>{filtered.length} {t("Models")}</strong>
+              <span>{category === "All" ? t("Across all providers") : `${t(category)} ${t("Models")}`}</span>
             </div>
             <SelectField value={sort} onChange={(event) => setSort(event.target.value)} label="">
-              <option>Recommended</option>
-              <option>Lowest input price</option>
-              <option>Lowest latency</option>
-              <option>Largest context</option>
-              <option>Name</option>
+              <option value="Recommended">{t("Recommended")}</option>
+              <option value="Lowest input price">{t("Lowest input price")}</option>
+              <option value="Lowest latency">{t("Lowest latency")}</option>
+              <option value="Largest context">{t("Largest context")}</option>
+              <option value="Name">{t("Name")}</option>
             </SelectField>
           </div>
           <div className="model-table">
             <div className="model-table__head">
-              <span>Model</span>
-              <span>Context</span>
-              <span>Input / 1M</span>
-              <span>Output / 1M</span>
-              <span>Latency</span>
-              <span>Tokens/s</span>
+              <span>{t("Model")}</span>
+              <span>{t("Context")}</span>
+              <span>{t("Input / 1M")}</span>
+              <span>{t("Output / 1M")}</span>
+              <span>{t("Latency")}</span>
+              <span>{t("Tokens/s")}</span>
               <span />
             </div>
             {filtered.map((model) => (
@@ -173,7 +175,7 @@ export default function Models({ onNavigate }) {
                     <strong>{model.name}</strong>
                     <span>{model.provider} <i /> {model.id}</span>
                   </div>
-                  {model.badge && <em>{model.badge}</em>}
+                  {model.badge && <em>{t(model.badge)}</em>}
                 </div>
                 <div data-label="Context"><strong>{model.context}</strong></div>
                 <div data-label="Input"><strong>${model.input.toFixed(2)}</strong></div>
@@ -195,7 +197,7 @@ export default function Models({ onNavigate }) {
                       onNavigate("playground");
                     }}
                   >
-                    Chat <ExternalLink size={14} />
+                    {t("Chat")} <ExternalLink size={14} />
                   </button>
                 </div>
               </div>
@@ -203,17 +205,17 @@ export default function Models({ onNavigate }) {
             {!filtered.length && (
               <div className="empty-state">
                 <Search size={22} />
-                <strong>No models found</strong>
-                <p>Try a different search or reset your filters.</p>
+                <strong>{t("No models found")}</strong>
+                <p>{t("Try a different search or reset your filters.")}</p>
                 <button onClick={() => { setSearch(""); setCategory("All"); setProvider("All providers"); }}>
-                  Clear filters
+                  {t("Clear filters")}
                 </button>
               </div>
             )}
           </div>
           <div className="catalog-footnote">
-            <Check size={15} /> Pricing shown per 1M tokens. All models share the same API key and billing account.
-            <button onClick={() => onNavigate("pricing")}>View billing details <ChevronDown size={14} /></button>
+            <Check size={15} /> {t("Pricing shown per 1M tokens. All models share the same API key and billing account.")}
+            <button onClick={() => onNavigate("pricing")}>{t("View billing details")} <ChevronDown size={14} /></button>
           </div>
         </section>
       </div>
