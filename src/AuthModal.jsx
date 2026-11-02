@@ -69,7 +69,7 @@ export default function AuthModal({ open, onClose, initialMode = "login" }) {
   const [mode, setMode] = useState(initialMode);
   const [step, setStep] = useState("email");
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState("Haochen");
   const [code, setCode] = useState("");
   const [agreed, setAgreed] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -82,6 +82,7 @@ export default function AuthModal({ open, onClose, initialMode = "login" }) {
     setMode(initialMode);
     setStep("email");
     setCode("");
+    setName("Haochen");
     setError("");
     setInfo("");
     setLoading(false);

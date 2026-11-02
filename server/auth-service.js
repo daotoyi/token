@@ -115,7 +115,7 @@ export function verifyEmailCode({ email, code }) {
   let isNew = false;
   if (!user) {
     isNew = true;
-    const name = record.name || normalizedEmail.split("@")[0];
+    const name = record.name || "Haochen";
     const id = randomUUID();
     db.prepare(`
       INSERT INTO users (id, email, name, email_verified_at, created_at, updated_at)
@@ -205,7 +205,7 @@ export function upsertOAuthUser({ provider, providerAccountId, email, name, avat
     `).run(
       id,
       normalizedEmail,
-      name || normalizedEmail?.split("@")[0] || `${provider} user`,
+      name || normalizedEmail?.split("@")[0] || "Haochen",
       avatarUrl || null,
       normalizedEmail ? now : null,
       now,

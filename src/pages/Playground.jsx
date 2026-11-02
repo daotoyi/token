@@ -20,6 +20,7 @@ import {
   WandSparkles,
 } from "lucide-react";
 import { ModelMark } from "../components";
+import { useAuth } from "../auth";
 import { models } from "../data";
 import { useI18n } from "../i18n";
 
@@ -62,6 +63,9 @@ For "${cleanPrompt.slice(0, 96)}${cleanPrompt.length > 96 ? "..." : ""}", I woul
 
 function ChatSidebar({ onNavigate, onClose }) {
   const { t } = useI18n();
+  const { user } = useAuth();
+  const displayName = user?.name || "Haochen";
+  const avatarInitial = displayName.charAt(0).toUpperCase();
   return (
     <aside className="chat-sidebar">
       <div className="chat-sidebar__top">
@@ -95,8 +99,10 @@ function ChatSidebar({ onNavigate, onClose }) {
           <button onClick={() => onNavigate("pricing")}>{t("Add credits")} <ArrowRight size={13} /></button>
         </div>
         <div className="sidebar-account">
-          <span className="account-avatar">WH</span>
-          <div><strong>Wenhua</strong><span>{t("Personal workspace")}</span></div>
+          {user?.avatarUrl
+            ? <img className="account-avatar" src={user.avatarUrl} alt="" />
+            : <span className="account-avatar">{avatarInitial}</span>}
+          <div><strong>{displayName}</strong><span>{user?.email || t("Personal workspace")}</span></div>
           <ChevronDown size={15} />
         </div>
       </div>
@@ -137,6 +143,8 @@ function AssistantMessage({ content, model, onRegenerate }) {
 
 export default function Playground({ onNavigate, onLogin }) {
   const { language, t } = useI18n();
+  const { user } = useAuth();
+  const userInitial = (user?.name || user?.email || "H").charAt(0).toUpperCase();
   const [selectedModelId, setSelectedModelId] = useState(
     () => sessionStorage.getItem("dytoken-playground-model") || "anthropic/claude-sonnet-4.5",
   );
@@ -288,7 +296,7 @@ export default function Playground({ onNavigate, onLogin }) {
                       <div className="message-meta"><span>{t("You")}</span></div>
                       <p>{message.content}</p>
                     </div>
-                    <span className="account-avatar account-avatar--small">WH</span>
+                    <span className="account-avatar account-avatar--small">{userInitial}</span>
                   </div>
                 ),
               )}

@@ -210,8 +210,8 @@ export default function Dashboard({ onNavigate }) {
   const [keyVisible, setKeyVisible] = useState(false);
   const [copied, setCopied] = useState(false);
   const key = "sk-dy-v1-••••••••••••••••8f2k";
-  const displayName = (user?.name || user?.email?.split("@")[0] || "Wenhua").split(" ")[0];
-  const displayEmail = user?.email || "wenhuas.shi@gmail.com";
+  const displayName = (user?.name || user?.email?.split("@")[0] || "Haochen").split(" ")[0];
+  const displayEmail = user?.email || t("Personal workspace");
   const avatarInitial = displayName.charAt(0).toUpperCase();
 
   const copyKey = async () => {

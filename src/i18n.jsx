@@ -259,7 +259,7 @@ const chinese = {
   Activity: "活动",
   Credits: "额度",
   Settings: "设置",
-  "Good afternoon, Wenhua": "下午好，Wenhua",
+  "Good afternoon, Wenhua": "下午好，Haochen",
   "Good afternoon, {name}": "下午好，{name}",
   "Here's what's happening across your workspace.": "这是你的工作区最新动态。",
   "Manage your workspace and API infrastructure.": "管理工作区与 API 基础设施。",
