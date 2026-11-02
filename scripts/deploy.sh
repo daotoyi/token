@@ -7,7 +7,7 @@ readonly REMOTE_DIR="/www/wwwroot/token.dyinvest.cn"
 npm run build
 
 ssh "$SERVER" "mkdir -p '$REMOTE_DIR'"
-rsync -az --delete "dist/" "$SERVER:$REMOTE_DIR/"
-ssh "$SERVER" "chown -R www:www '$REMOTE_DIR' && find '$REMOTE_DIR' -type d -exec chmod 755 {} + && find '$REMOTE_DIR' -type f -exec chmod 644 {} +"
+rsync -az --delete --exclude=".user.ini" "dist/" "$SERVER:$REMOTE_DIR/"
+ssh "$SERVER" "find '$REMOTE_DIR' -path '$REMOTE_DIR/.user.ini' -prune -o -exec chown www:www {} + && find '$REMOTE_DIR' -path '$REMOTE_DIR/.user.ini' -prune -o -type d -exec chmod 755 {} + && find '$REMOTE_DIR' -path '$REMOTE_DIR/.user.ini' -prune -o -type f -exec chmod 644 {} +"
 
 echo "Deployed to https://token.dyinvest.cn"
