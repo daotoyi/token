@@ -134,7 +134,7 @@ export function Header({ page, onNavigate, onLogin, theme, onTheme }) {
               aria-label={language === "en" ? "切换至中文" : "Switch to English"}
             >
               <Languages size={15} />
-              {language === "en" ? "中文" : "EN"}
+              {language === "en" ? "ZH" : "EN"}
             </button>
             {user ? (
               <div className="header-account">
