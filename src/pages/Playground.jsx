@@ -47,6 +47,20 @@ function mockReply(prompt, model, language) {
 
 针对“${cleanPrompt.slice(0, 96)}${cleanPrompt.length > 96 ? "..." : ""}”，我会把它整理成一份简短的执行说明，包含负责人、里程碑、风险和明确的决策点。下一步我可以展开其中任意一部分。`;
   }
+  if (language === "zh-Hant") {
+    return `下面是使用 ${model.name} 給出的一個可執行初稿。
+
+1. 先明確結果
+   定義這項工作必須產出的唯一結果，以及如何衡量成功。
+
+2. 讓第一版保持聚焦
+   從最有價值的最小切片開始，快速驗證，只有訊號清晰後再擴展。
+
+3. 為迭代而構建
+   將假設集中管理，讓決策過程可觀察，並移除拖慢回饋循環的內容。
+
+針對「${cleanPrompt.slice(0, 96)}${cleanPrompt.length > 96 ? "..." : ""}」，我會把它整理成一份簡短的執行說明，包含負責人、里程碑、風險和明確的決策點。下一步我可以展開其中任意一部分。`;
+  }
   return `Here's a practical first pass using ${model.name}.
 
 1. Start with the outcome
@@ -175,8 +189,9 @@ export default function Playground({ onNavigate, onLogin }) {
   useEffect(() => {
     const englishPrompt = "You are a thoughtful product and engineering partner.";
     const chinesePrompt = "你是一位深思熟虑的产品与工程伙伴。";
+    const traditionalPrompt = "你是一位深思熟慮的產品與工程夥伴。";
     setSystemPrompt((current) => (
-      current === englishPrompt || current === chinesePrompt
+      current === englishPrompt || current === chinesePrompt || current === traditionalPrompt
         ? t(englishPrompt)
         : current
     ));

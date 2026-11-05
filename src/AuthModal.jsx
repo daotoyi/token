@@ -118,7 +118,7 @@ export default function AuthModal({ open, onClose, initialMode = "login" }) {
         email,
         name: mode === "register" ? name : undefined,
         intent: mode,
-        language: document.documentElement.lang.startsWith("zh") ? "zh" : "en",
+        language,
       });
       setEmail(result.email);
       setStep("code");
@@ -232,7 +232,7 @@ export default function AuthModal({ open, onClose, initialMode = "login" }) {
               <label className="auth-consent">
                 <input type="checkbox" checked={agreed} onChange={(event) => setAgreed(event.target.checked)} />
                 <span>
-                  {t("I agree to the")} <a href="#terms">{t("Terms")}</a> {t("and")} <a href="#privacy">{t("Privacy Policy")}</a>{language === "zh" ? "。" : "."}
+                  {t("I agree to the")} <a href="#terms">{t("Terms")}</a> {t("and")} <a href="#privacy">{t("Privacy Policy")}</a>{language === "en" ? "." : "。"}
                 </span>
               </label>
               {error && <div className="auth-error">{error}</div>}

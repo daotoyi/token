@@ -76,7 +76,7 @@ app.post(
     await sendVerificationCode({
       email: verification.email,
       code: verification.code,
-      language: language === "zh" ? "zh" : "en",
+      language: ["zh", "zh-Hant"].includes(language) ? language : "en",
     });
 
     res.json({

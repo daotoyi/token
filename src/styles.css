@@ -63,7 +63,11 @@ body {
 html[lang="zh-CN"] h1,
 html[lang="zh-CN"] h2,
 html[lang="zh-CN"] h3,
-html[lang="zh-CN"] .brand__word {
+html[lang="zh-CN"] .brand__word,
+html[lang="zh-Hant"] h1,
+html[lang="zh-Hant"] h2,
+html[lang="zh-Hant"] h3,
+html[lang="zh-Hant"] .brand__word {
   letter-spacing: 0;
 }
 
@@ -271,25 +275,37 @@ main {
   color: var(--ink);
 }
 
-.language-toggle {
-  min-width: 54px;
+.language-switch {
   height: 32px;
-  padding: 0 8px;
+  padding: 2px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 1px;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--surface);
+}
+
+.language-switch button {
+  min-width: 29px;
+  height: 26px;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: transparent;
   color: var(--ink-soft);
-  font-size: 10.5px;
+  font-size: 9.5px;
   font-weight: 700;
 }
 
-.language-toggle:hover {
-  border-color: var(--line-dark);
+.language-switch button:hover {
+  background: var(--surface-alt);
   color: var(--ink);
+}
+
+.language-switch button.is-active {
+  background: var(--ink);
+  color: var(--bg);
 }
 
 .button {
@@ -6394,9 +6410,9 @@ kbd {
     display: none;
   }
 
-  .language-toggle {
-    min-width: 45px;
-    padding: 0 6px;
+  .language-switch button {
+    min-width: 25px;
+    padding: 0 4px;
   }
 
   .hero h1 {

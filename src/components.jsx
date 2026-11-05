@@ -4,7 +4,6 @@ import {
   Check,
   ChevronDown,
   Copy,
-  Languages,
   LogOut,
   Menu,
   Moon,
@@ -128,14 +127,24 @@ export function Header({ page, onNavigate, onLogin, theme, onTheme }) {
             <button className="icon-button theme-toggle" onClick={onTheme} aria-label={t("Toggle theme")}>
               {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </button>
-            <button
-              className="language-toggle"
-              onClick={() => setLanguage(language === "en" ? "zh" : "en")}
-              aria-label={language === "en" ? "切换至中文" : "Switch to English"}
-            >
-              <Languages size={15} />
-              {language === "en" ? "ZH" : "EN"}
-            </button>
+            <div className="language-switch" role="group" aria-label="Language">
+              {[
+                ["en", "EN", "English"],
+                ["zh", "简", "简体中文"],
+                ["zh-Hant", "繁", "繁體中文"],
+              ].map(([code, label, title]) => (
+                <button
+                  key={code}
+                  className={language === code ? "is-active" : ""}
+                  type="button"
+                  title={title}
+                  aria-pressed={language === code}
+                  onClick={() => setLanguage(code)}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
             {user ? (
               <div className="header-account">
                 <button className="header-account__trigger" onClick={() => setAccountOpen((open) => !open)}>

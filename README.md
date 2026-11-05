@@ -2,7 +2,13 @@
 
 A model gateway and token relay interface inspired by OpenRouter.
 
-The interface supports English and Simplified Chinese, with English as the default language.
+The interface supports English, Simplified Chinese, and Traditional Chinese, with English as the default language.
+
+After changing Simplified Chinese copy, regenerate the Traditional Chinese dictionary:
+
+```bash
+npm run i18n:hant
+```
 
 ## Accounts
 

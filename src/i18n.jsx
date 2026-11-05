@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { traditionalChinese } from "./i18n-zh-hant";
 
 const chinese = {
   "DeepSeek V3.2 is now live": "DeepSeek V3.2 已上线",
@@ -467,18 +468,30 @@ function interpolate(text, values) {
 
 export function LanguageProvider({ children }) {
   const [language, setLanguageState] = useState(
-    () => localStorage.getItem("dytoken-language") || "en",
+    () => {
+      const saved = localStorage.getItem("dytoken-language");
+      return ["en", "zh", "zh-Hant"].includes(saved) ? saved : "en";
+    },
   );
 
   useEffect(() => {
-    document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+    const languageTag = language === "zh"
+      ? "zh-CN"
+      : language === "zh-Hant"
+        ? "zh-Hant"
+        : "en";
+    document.documentElement.lang = languageTag;
     document.title = language === "zh"
       ? "DyToken — 所有模型，一个 API"
-      : "DyToken — One API for every model";
+      : language === "zh-Hant"
+        ? "DyToken — 所有模型，一個 API"
+        : "DyToken — One API for every model";
     const description = document.querySelector('meta[name="description"]');
     if (description) {
       description.content = language === "zh"
         ? "DyToken 通过一个统一 API 接入全球领先的 AI 模型。"
+        : language === "zh-Hant"
+          ? "DyToken 透過一個統一 API 接入全球領先的 AI 模型。"
         : "DyToken is one unified API for the world's best AI models.";
     }
     localStorage.setItem("dytoken-language", language);
@@ -486,10 +499,17 @@ export function LanguageProvider({ children }) {
 
   const value = useMemo(() => {
     const t = (text, values) => {
-      const translated = language === "zh" ? chinese[text] || text : text;
+      const dictionary = language === "zh"
+        ? chinese
+        : language === "zh-Hant"
+          ? traditionalChinese
+          : null;
+      const translated = dictionary?.[text] || text;
       return interpolate(translated, values);
     };
-    const setLanguage = (next) => setLanguageState(next === "zh" ? "zh" : "en");
+    const setLanguage = (next) => {
+      setLanguageState(["en", "zh", "zh-Hant"].includes(next) ? next : "en");
+    };
     return { language, setLanguage, t };
   }, [language]);
 

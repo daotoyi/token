@@ -48,14 +48,23 @@ export async function sendVerificationCode({ email, code, language = "en" }) {
     console.log(`[dytoken-api] development verification code for ${email}: ${code}`);
     return;
   }
-  const isChinese = language === "zh";
-  const subject = isChinese ? `${code} 是您的 DyToken 验证码` : `${code} is your DyToken code`;
-  const intro = isChinese
+  const isSimplified = language === "zh";
+  const isTraditional = language === "zh-Hant";
+  const subject = isSimplified
+    ? `${code} 是您的 DyToken 验证码`
+    : isTraditional
+      ? `${code} 是您的 DyToken 驗證碼`
+      : `${code} is your DyToken code`;
+  const intro = isSimplified
     ? "使用以下验证码完成注册或登录。验证码 10 分钟内有效。"
-    : "Use the code below to finish signing in or creating your account. It expires in 10 minutes.";
-  const notice = isChinese
+    : isTraditional
+      ? "使用以下驗證碼完成註冊或登入。驗證碼 10 分鐘內有效。"
+      : "Use the code below to finish signing in or creating your account. It expires in 10 minutes.";
+  const notice = isSimplified
     ? "如果不是您本人操作，请忽略这封邮件。"
-    : "If you did not request this email, you can safely ignore it.";
+    : isTraditional
+      ? "如果不是您本人操作，請忽略這封郵件。"
+      : "If you did not request this email, you can safely ignore it.";
   const text = `${intro}\n\n${code}\n\n${notice}\n\nDyToken`;
   const html = `
     <!doctype html>
