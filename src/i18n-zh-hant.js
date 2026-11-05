@@ -77,6 +77,7 @@ export const traditionalChinese = {
   "Account": "賬號",
   "Connected account": "已連線賬號",
   "X (Twitter)": "X（Twitter）",
+  "Language": "語言",
   "By continuing, you agree to our": "繼續即表示你同意我們的",
   "and": "和",
   "Privacy Policy": "隱私政策",

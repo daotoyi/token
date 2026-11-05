@@ -4,6 +4,7 @@ import {
   Check,
   ChevronDown,
   Copy,
+  Languages,
   LogOut,
   Menu,
   Moon,
@@ -79,10 +80,28 @@ export function Header({ page, onNavigate, onLogin, theme, onTheme }) {
   const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const [languageOpen, setLanguageOpen] = useState(false);
 
   useEffect(() => {
     setMobileOpen(false);
+    setLanguageOpen(false);
   }, [page]);
+
+  useEffect(() => {
+    if (!languageOpen) return undefined;
+    const closeMenu = (event) => {
+      if (!event.target.closest(".language-select")) setLanguageOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setLanguageOpen(false);
+    };
+    document.addEventListener("pointerdown", closeMenu);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeMenu);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [languageOpen]);
 
   const go = (target) => {
     onNavigate(target);
@@ -127,23 +146,43 @@ export function Header({ page, onNavigate, onLogin, theme, onTheme }) {
             <button className="icon-button theme-toggle" onClick={onTheme} aria-label={t("Toggle theme")}>
               {theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}
             </button>
-            <div className="language-switch" role="group" aria-label="Language">
-              {[
-                ["en", "EN", "English"],
-                ["zh", "简", "简体中文"],
-                ["zh-Hant", "繁", "繁體中文"],
-              ].map(([code, label, title]) => (
-                <button
-                  key={code}
-                  className={language === code ? "is-active" : ""}
-                  type="button"
-                  title={title}
-                  aria-pressed={language === code}
-                  onClick={() => setLanguage(code)}
-                >
-                  {label}
-                </button>
-              ))}
+            <div className="language-select">
+              <button
+                className="language-select__trigger"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded={languageOpen}
+                aria-label={t("Language")}
+                onClick={() => setLanguageOpen((open) => !open)}
+              >
+                <Languages size={15} />
+                <span>{language === "en" ? "EN" : language === "zh" ? "简" : "繁"}</span>
+                <ChevronDown size={13} />
+              </button>
+              {languageOpen && (
+                <div className="language-select__menu" role="listbox" aria-label={t("Language")}>
+                  {[
+                    ["en", "English"],
+                    ["zh", "简体中文"],
+                    ["zh-Hant", "繁體中文"],
+                  ].map(([code, label]) => (
+                    <button
+                      key={code}
+                      className={language === code ? "is-active" : ""}
+                      type="button"
+                      role="option"
+                      aria-selected={language === code}
+                      onClick={() => {
+                        setLanguage(code);
+                        setLanguageOpen(false);
+                      }}
+                    >
+                      <span>{label}</span>
+                      {language === code && <Check size={14} />}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             {user ? (
               <div className="header-account">

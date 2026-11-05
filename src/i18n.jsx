@@ -79,6 +79,7 @@ const chinese = {
   "Account": "账号",
   "Connected account": "已连接账号",
   "X (Twitter)": "X（Twitter）",
+  "Language": "语言",
   "By continuing, you agree to our": "继续即表示你同意我们的",
   "and": "和",
   "Privacy Policy": "隐私政策",

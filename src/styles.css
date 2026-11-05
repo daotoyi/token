@@ -275,37 +275,81 @@ main {
   color: var(--ink);
 }
 
-.language-switch {
+.language-select {
+  position: relative;
+}
+
+.language-select__trigger {
   height: 32px;
-  padding: 2px;
+  min-width: 76px;
+  padding: 0 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 1px;
+  gap: 5px;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--surface);
-}
-
-.language-switch button {
-  min-width: 29px;
-  height: 26px;
-  padding: 0 6px;
-  border-radius: 4px;
-  background: transparent;
   color: var(--ink-soft);
   font-size: 9.5px;
   font-weight: 700;
 }
 
-.language-switch button:hover {
+.language-select__trigger:hover,
+.language-select__trigger[aria-expanded="true"] {
+  border-color: var(--line-dark);
+  color: var(--ink);
+}
+
+.language-select__trigger > svg:last-child {
+  color: var(--muted);
+  transition: transform 160ms ease;
+}
+
+.language-select__trigger[aria-expanded="true"] > svg:last-child {
+  transform: rotate(180deg);
+}
+
+.language-select__menu {
+  position: absolute;
+  z-index: 90;
+  top: calc(100% + 7px);
+  right: 0;
+  width: 145px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.language-select__menu button {
+  width: 100%;
+  min-height: 33px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 10px;
+  text-align: left;
+}
+
+.language-select__menu button:hover {
   background: var(--surface-alt);
   color: var(--ink);
 }
 
-.language-switch button.is-active {
-  background: var(--ink);
-  color: var(--bg);
+.language-select__menu button.is-active {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.language-select__menu button.is-active svg {
+  color: var(--green);
 }
 
 .button {
@@ -6410,9 +6454,9 @@ kbd {
     display: none;
   }
 
-  .language-switch button {
-    min-width: 25px;
-    padding: 0 4px;
+  .language-select__trigger {
+    min-width: 67px;
+    padding: 0 6px;
   }
 
   .hero h1 {
